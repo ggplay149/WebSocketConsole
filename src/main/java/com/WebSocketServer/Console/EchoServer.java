@@ -36,12 +36,21 @@ public class EchoServer {
 
                 //Head에서 Method 값 출력
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-                String method = reader.readLine().split(" ")[0];
-                System.out.println("Method : " + method);
+                String[] receivedData = reader.readLine().split(" ");
+
+                String method = receivedData[0];
+                String path = receivedData[1];
+
+                //favicon 요청이면 생략
+                if(path.equals("/favicon.ico")){
+                    stream.close();
+                    client.close();
+                    continue;
+                }
 
 
                 //method별 Message 값 가져오기
-                String message = httpMethodHandler.getMessage(method,reader);
+                String message = httpMethodHandler.getMessage(method,path,reader);
                 System.out.println("Message : " + message);
 
 
@@ -52,8 +61,6 @@ public class EchoServer {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8));
 
                 writer.write("HTTP/1.1 200 OK\r\n");
-                writer.write("Content-Type: text/plain\r\n");
-                writer.write("Content-Length: " + message.length() + "\r\n");
                 writer.write("\r\n");
                 writer.write("SUCCESS");
 

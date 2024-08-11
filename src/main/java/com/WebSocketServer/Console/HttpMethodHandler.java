@@ -8,14 +8,14 @@ public class HttpMethodHandler {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public String getMessage(String method, BufferedReader reader) throws IOException {
+    public String getMessage(String method, String path, BufferedReader reader) throws IOException {
 
         String message = null;
         String line;
 
         switch (method){
             case "GET":
-
+                message = path.split("=")[1];
                 break;
 
             case "POST":
