@@ -41,12 +41,14 @@ public class EchoServer {
                 String method = receivedData[0];
                 String path = receivedData[1];
 
-                //favicon 요청이면 생략
+                //브라우저에서 favicon 요청이면 생략
                 if(path.equals("/favicon.ico")){
                     stream.close();
                     client.close();
                     continue;
                 }
+
+                System.out.println("Method : " + method);
 
 
                 //method별 Message 값 가져오기
